@@ -1,12 +1,10 @@
 
-import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import net.proteanit.sql.DbUtils;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -78,6 +76,7 @@ public class adminHome extends javax.swing.JFrame {
         pass1 = new javax.swing.JPasswordField();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -255,6 +254,18 @@ public class adminHome extends javax.swing.JFrame {
         });
 
         jButton6.setText("Update");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("Delete");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -300,6 +311,8 @@ public class adminHome extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(174, 174, 174)
                 .addComponent(jButton6)
+                .addGap(32, 32, 32)
+                .addComponent(jButton7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -331,7 +344,9 @@ public class adminHome extends javax.swing.JFrame {
                     .addComponent(jLabel11)
                     .addComponent(pass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
-                .addComponent(jButton6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(jButton7))
                 .addContainerGap(68, Short.MAX_VALUE))
         );
 
@@ -429,12 +444,59 @@ public class adminHome extends javax.swing.JFrame {
         else{
              JOptionPane.showMessageDialog(null,"Record Not Found");
         }
-        }catch(Exception e){
+        }catch(HeadlessException | NumberFormatException | SQLException e){
             JOptionPane.showMessageDialog(null,e);
         }
         
        
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        try{
+            stmt = conn.createStatement();
+            int uId  = Integer.parseInt(id.getText());
+            String uName = name2.getText();
+            String uAddress = add1.getText();
+            String uMail = mail1.getText();
+            String uPhone = phone1.getText();
+            String uPassword = pass1.getText();
+            
+            String sql = "UPDATE USER SET uName='"+uName+"', uAddress='"+uAddress+"', uMail='"+uMail+"', uPhone='"+uPhone+"', uPassword='"+uPassword+"' WHERE uId = '"+uId+"'  ";
+            stmt.executeUpdate(sql);
+            
+            
+            JOptionPane.showMessageDialog(null, "Update successful");
+            
+    
+            
+            
+            
+        }catch(HeadlessException | NumberFormatException | SQLException e){
+        JOptionPane.showMessageDialog(null,e);
+        }
+       
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        try{
+            stmt=conn.createStatement();
+            int uId = Integer.parseInt(id.getText());
+            String sql = "DELETE FROM USER WHERE uId = '"+uId+"' ";
+            stmt.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "Delete Success");
+     id.setText("");
+    name2.setText("");
+    add1.setText("");
+    mail1.setText("");
+    phone1.setText("");
+    pass1.setText("");
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -464,10 +526,8 @@ public class adminHome extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new adminHome().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new adminHome().setVisible(true);
         });
     }
 
@@ -481,6 +541,7 @@ public class adminHome extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
