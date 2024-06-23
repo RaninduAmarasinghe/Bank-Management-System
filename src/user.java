@@ -119,9 +119,17 @@ public class user extends javax.swing.JFrame {
         String uMail = use.getText();
         String uPassword = password.getText();
         
-        String sql = "SELECT * FROM USER uName = '"+uName+"' or uMail = '"+uMail+"' && uPassowrd = '"+uPassword+"'  ";
+        String sql = "SELECT * FROM USER WHERE uName = '"+uName+"' or uMail = '"+uMail+"' && uPassword = '"+uPassword+"'  ";
         rs = stmt.executeQuery(sql);
-        JOptionPane.showMessageDialog(null,"incorrect username or password");
+        if(rs.next()){
+           setVisible(false);
+           userHome object = new userHome();
+           object.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"incorrect username or password");
+        }
+        
         
             
         }catch(Exception e){
